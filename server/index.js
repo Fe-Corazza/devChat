@@ -9,17 +9,27 @@ const PORT = 3001;
 
 io.on("connection", (socket) => {
   socket.on("set_username", (username) => {
-    console.log(`Bem-vindo ${username}!`);
-
+    // console.log(`Bem-vindo ${username}!`);
     socket.data.username = username;
     // userName(username, socket.id);
 
     console.log(`Bem-vindo ${socket.data.username} seu id é ${socket.id}!`);
   });
 
+  socket.on("message", (text) => {
+    io.emit("receive_message", {
+      text,
+      authorID: socket.id,
+      author: socket.data.username,
+    });
+    console.log(`Usuário ${socket.data.username} enviou uma mensagem!`);
+  });
+
   socket.on("disconnect", (reason) => {
-    console.log (`${socket.data.username} desconectado, motivo: ${reason} `);
-  })
+    console.log(
+      `Usuário ${socket.data.username} desconectado, motivo: ${reason} `
+    );
+  });
 });
 
 server.listen(PORT, () => {

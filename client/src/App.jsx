@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div className="App">
       {chatVisibility ? (
-        <Chat />
+        <Chat socket={handShake} />
       ) : (
         <Join state={setChatVisibility} handShake={setHandShake} />
       )}
